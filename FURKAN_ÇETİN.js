@@ -7,7 +7,7 @@
         ModuleAuthor: "Furkan Çetin",
         ModuleFavoriteStorageKey: "favorites",
         ModuleProductStorageKey: "products",
-        ModuleProductAPIURL: "https://api.example.com/products",
+        ModuleProductAPIURL: "https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json",
         ModuleTargetURL: "https://www.e-bebek.com/",
        };
 
@@ -24,8 +24,38 @@
         return true;
     }
 
-    async function init() {
+    async function fetchProducts() {
+        try {
+            const response = await fetch(ModuleConfiguration.ModuleProductAPIURL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data || data.products || []; // data may be an object with a products property or an array directly in github gist it is an array
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            return [];
+        }
+    }
 
+    function loadProductsFromStorage() {
+        const storedProducts = localStorage.getItem(ModuleConfiguration.ModuleProductStorageKey);
+        if (storedProducts) {
+            products = JSON.parse(storedProducts);
+            if (products && products.length > 0 && Array.isArray(products)) { 
+                console.log("Products loaded from localStorage:", products);
+                return true; 
+            } else {
+                console.warn("No products found in localStorage, will fetch from API.");
+                return false; 
+            }
+        } else {
+            console.warn("No products found in localStorage, fetching from API.");
+            return false;
+        }
+    }
+
+    async function init() {
         // Modül Tasarım Planı:
         // İlk olarak modülün yapılandırmasını yapıyoruz.
         // Daha sonra, modülün çalışacağı url ile hedef url aynı mı diye kontrol ediyoruz. 
@@ -41,6 +71,31 @@
         if (!targetUrlCheck()) {
             return;
         }
+
+        // Ürünleri localStorage'dan yüklüyoruz.
+        if (!loadProductsFromStorage()) {
+            products = await fetchProducts();
+            if (products && products.length > 0 && Array.isArray(products)) {
+                localStorage.setItem(ModuleConfiguration.ModuleProductStorageKey, JSON.stringify(products));
+                console.log("Products fetched from API and saved to localStorage:", products);
+            } else {
+                console.error("No products fetched from API.");
+                return;
+            }
+        } else {
+            console.log("Products loaded from localStorage successfully.");
+        }
+
+        // Favorileri localStorage'dan yüklüyoruz.
+        if (favorites.length === 0) {
+            console.log("No favorites found in localStorage, initializing with an empty array.");
+            favorites = [];
+        } else {
+            console.log("Favorites loaded from localStorage:", favorites);
+        }
+
+        
+
 
 
 
