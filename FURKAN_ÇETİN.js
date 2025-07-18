@@ -409,6 +409,17 @@
                 : 'https://www.e-bebek.com/assets/svg/default-favorite.svg';
         });
 
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.FC-favorite-btn') || e.target.closest('.FC-cart-btn')) {
+                return;
+            }
+
+            window.location.href = product.url || '';
+
+        });
+
+        card.style.cursor = 'pointer';
+
         return card;
     }
 
@@ -763,10 +774,13 @@
                 font-weight: 600;
                 cursor: pointer;
                 transition: background-color 0.2s ease;
+                z-index: 2;
+                position: relative;
             }
             
             .FC-cart-btn:hover {
                 background: #d97706;
+                transform: scale(1.02);
             }
             
             .FC-nav-button {
