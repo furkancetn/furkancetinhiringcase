@@ -109,7 +109,6 @@
         track.className = 'FC-products-track';
         track.style.display = 'flex';
         track.style.flexDirection = 'row';
-        track.style.gap = '0';
         track.style.padding = '10px 0 20px 0';
         track.style.transition = 'transform 0.5s ease';
         track.style.willChange = 'transform';
@@ -349,7 +348,7 @@
                 itemsPerView = 2;
             }
             
-            const cardWidthPercentage = (100 / itemsPerView) + '%';
+            const cardWidthPercentage = (100 / itemsPerView)-1 + '%';
             card.style.width = cardWidthPercentage;
             card.style.minWidth = cardWidthPercentage;
             card.style.flexShrink = '0';
@@ -388,7 +387,7 @@
             <div class="FC-price-container">
               <div class="FC-price-top-row">
                 <span class="FC-old-price">${hasDiscount ? parseFloat(product.original_price).toFixed(2) + ' TL' : ''}</span>
-                <span class="FC-discount-badge">${hasDiscount ? '-%' + discountPercentage : ''}</span>
+                ${hasDiscount ? `<span class="FC-discount-badge">-%${discountPercentage}</span>` : ''}
               </div>
               <div class="FC-price-discount-row">
                 <span class="FC-current-price">${parseFloat(product.price).toFixed(2)} TL</span>
@@ -424,7 +423,7 @@
     }
 
     function createStyles() {
-        // E bebek sitesini inceledim ve CSS stillerini buna göre oluşturdum. Tam değerler karşılanmamış olabilir.
+        // E bebek sitesini inceledim ve CSS stillerini buna göre oluşturdum. Tam değerler karşılanmamış olabilir. Özellikle bazı fontlar,renkler ve boyutlar tam olarak eşleşmeyebilir.
         const style = document.createElement('style');
         style.textContent = `
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -438,7 +437,7 @@
                 align-items: center;
                 justify-content: center;
                 margin: auto;
-                padding: 0 80px; 
+                padding: 15px 80px; 
             }
             
             .FC-carousel * {
@@ -455,28 +454,34 @@
             
             .FC-carousel {
                 position: relative;
-                width: 1320px; 
+                width: 100%;
                 max-width: 1320px;
                 margin: 0;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                background: #fff;
-                clear: both;
                 overflow: hidden;
-                padding: 0; 
+                padding: 5px 15px 5px 15px;
+                background-color: transparent; 
+                box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.1);
+                border-bottom-left-radius: 35px;
+                border-bottom-right-radius: 35px;
             }
             
             .FC-title-section {
-                background: #f8f5f0;
-                padding: 25px;
+                background: #fef6eb;
+                padding: 25px 67px;
+                width: 100%; 
                 max-width: 1320px; 
                 margin-left: auto;
                 margin-right: auto;
+                border-top-left-radius: 35px;
+                border-top-right-radius: 35px;
+                box-sizing: border-box; 
             }
             
             .FC-title {
                 margin: 0;
-                font-size: clamp(18px, 4vw, 24px); 
-                font-weight: 600;
+                font-size: clamp(18px, 4vw, 28px); 
+                font-weight: 700;
+                font-family: Quicksand-Bold, sans-serif;
                 color: #f39c12;
                 text-align: left;
             }
@@ -485,7 +490,7 @@
             .FC-products-wrapper {
                 position: relative;
                 width: 100%;
-                max-width: 1320px; 
+                max-width: 100%;
                 overflow: hidden;
                 padding: 0;
                 margin: 0 auto;
@@ -495,7 +500,7 @@
                 display: flex !important;
                 flex-direction: row !important;
                 gap: 0; 
-                padding: 10px 0 20px 0;
+                padding: 20px 0 20px 0;
                 transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 will-change: transform;
                 flex-wrap: nowrap !important;
@@ -509,8 +514,8 @@
             
             .FC-product-card {
                 background: #fff;
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
+                border: 1px solid #ededed;
+                border-radius: 10px;
                 overflow: hidden;
                 position: relative;
                 transition: all 0.3s ease;
@@ -520,30 +525,28 @@
                 flex-direction: column !important;
                 float: none !important;
                 clear: none !important;
-                padding: 0 10px;  
+                padding: 20px;  
                 box-sizing: border-box;
-                height: 450px; 
+                margin: 0 7px;
             }
             
             .FC-product-card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                border-color: #f49907ff;
+                border-width: 3px;
             }
             
             .FC-product-card > * {
-                margin: 10px;
                 border-radius: 8px;
                 background: #fff;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             }
             
             .FC-product-card > .FC-product-image-container {
-                margin: 10px 10px 0 10px;
                 flex-shrink: 0;
             }
             
             .FC-product-card > .FC-product-info {
-                margin: 0 10px 10px 10px;
                 flex: 1;
                 display: flex;
                 flex-direction: column;
@@ -569,9 +572,7 @@
                 color: white;
             }
             
-            .FC-badge-free-shipping {
-                background: #16a34a;
-            }
+            
             
             .FC-badge-discount {
                 background: #f97316;
@@ -579,9 +580,10 @@
             
             .FC-product-image-container {
                 position: relative;
-                width: 100%;
+                max-width: 100%;
                 height: 200px;
                 overflow: hidden;
+                margin-bottom: 65px;
             }
             
             .FC-product-image {
@@ -622,7 +624,6 @@
             }
             
             .FC-product-info {
-                padding: 16px;
                 display: flex;
                 flex-direction: column;
                 height: 100%;
@@ -635,16 +636,16 @@
             }
             
             .FC-brand {
-                font-size: 12px;
+                font-size: 1.2rem;
                 color: #6b7280;
-                font-weight: 500;
+                font-weight: 900;
                 margin-bottom: 4px;
             }
             
             .FC-product-title {
-                font-size: 14px;
-                font-weight: 500;
-                color: #1f2937;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #7D7D7D;
                 line-height: 1.4;
                 margin: 0 0 8px 0;
                 display: -webkit-box;
@@ -657,12 +658,14 @@
             .FC-rating {
                 display: flex;
                 align-items: center;
-                gap: 4px;
+                gap: 20px;
                 margin-bottom: 8px;
-                font-size: 12px;
+                font-size: 22px;
+                color: #fed100;
             }
             
             .FC-rating-count {
+                font-size: 12px;
                 color: #6b7280;
             }
             
@@ -687,7 +690,7 @@
             }
             
             .FC-discount-badge {
-                background: #dc2626;
+                background: green;
                 color: white;
                 padding: 2px 6px;
                 border-radius: 4px;
@@ -703,35 +706,20 @@
             }
             
             .FC-current-price {
-                font-size: 18px;
+                font-size: 21px;
                 font-weight: 700;
-                color: #1f2937;
+                color: #7D7D7D;
             }
             
-            .FC-discount-badge {
-                background: #dc2626;
-                color: white;
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-size: 11px;
-                font-weight: 600;
-                margin-left: 8px;
-            }
-            
-            .FC-installment {
-                font-size: 11px;
-                color: #059669;
-                font-weight: 500;
-                margin-bottom: 12px;
-            }
+    
             
             .FC-cart-btn {
                 width: 100%;
-                background: #f59e0b;
-                color: white;
+                background: #fff7ec;
+                color: #f28e00;
                 border: none;
-                padding: 10px;
-                border-radius: 6px;
+                padding: 15px;
+                border-radius: 37.5px;
                 font-size: 14px;
                 font-weight: 600;
                 cursor: pointer;
@@ -742,6 +730,7 @@
             
             .FC-cart-btn:hover {
                 background: #d97706;
+                color: #fff;
                 transform: scale(1.02);
             }
             
@@ -788,25 +777,40 @@
             }
             
             
+                
             @media (max-width: 1400px) {
                 .FC-main-container {
                     max-width: 100%;
                     padding: 0 80px; 
                 }
+                
+                .FC-carousel {
+                    width: 100%;
+                    margin: 0;
+                }
+                
+                .FC-title-section {
+                    padding: 20px 40px;     
+                }
             }
             
-            @media (max-width: 767px) {
+            @media (max-width: 768px) {
                 .FC-main-container {
                     padding: 0 60px; 
                 }
                 
                 .FC-carousel {
                     width: 100%;
-                    max-width: calc(100vw - 120px);
+                    padding: 5px 10px;
                 }
                 
                 .FC-title-section {
-                    max-width: 100%;
+                    padding: 15px 20px;     
+                    border-radius: 20px 20px 0 0;   
+                }
+                
+                .FC-title {
+                    font-size: clamp(16px, 5vw, 22px);  
                 }
                 
                 .FC-products-wrapper {
@@ -825,6 +829,32 @@
                 
                 .FC-nav-button.next {
                     right: 10px;
+                }
+                
+                .FC-product-card {
+                    padding: 15px;  
+                    margin: 0 4px;  
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .FC-main-container {
+                    padding: 0 40px; 
+                }
+                
+                .FC-title-section {
+                    padding: 12px 15px;
+                    border-radius: 15px 15px 0 0;
+                }
+                
+                .FC-carousel {
+                    padding: 5px 8px;
+                    border-radius: 0 0 15px 15px;
+                }
+                
+                .FC-product-card {
+                    padding: 12px;
+                    margin: 0 3px;
                 }
             }
         `;
