@@ -8,11 +8,21 @@
         ModuleFavoriteStorageKey: "favorites",
         ModuleProductStorageKey: "products",
         ModuleProductAPIURL: "https://api.example.com/products",
-        ModuleTargetURL: "https://www.e-bebek.com",
+        ModuleTargetURL: "https://www.e-bebek.com/",
        };
 
     let products = [];
     let favorites = JSON.parse(localStorage.getItem(ModuleConfiguration.ModuleFavoriteStorageKey)) || [];
+
+
+    function targetUrlCheck() {
+        const currentUrl = window.location.href;
+        if (currentUrl !== ModuleConfiguration.ModuleTargetURL || currentUrl.indexOf(ModuleConfiguration.ModuleTargetURL) === -1) {
+            console.warn(`Current URL (${currentUrl}) does not match target URL (${ModuleConfiguration.ModuleTargetURL}). Module will not function properly.`);
+            return false;
+        }
+        return true;
+    }
 
     async function init() {
 
@@ -23,6 +33,16 @@
         // Eğer yoksa, ürünleri API'den çekiyoruz. Eğer API'den veri çekme işlemi başarılı olursa, ürünleri localStorage'a kaydediyoruz.
         // Favoriler de aynı şekilde kontrol ediliyor. Eğer favoriler localStorage'da yoksa, boş bir dizi olarak başlatılıyor.
         // Son olarak, ürünleri ve favorileri kullanarak modülün işlevselliğini sağlıyoruz.
+
+        // Modül yapılandırmasını yapıyoruz.
+        console.log("Initializing module:", ModuleConfiguration.ModuleName);
+
+        // Hedef URL kontrolü yapıyoruz.
+        if (!targetUrlCheck()) {
+            return;
+        }
+
+
 
     }
 
