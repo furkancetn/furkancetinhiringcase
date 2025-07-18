@@ -119,12 +119,12 @@
         mainContainer.appendChild(container);
         const prevButton = document.createElement('button');
         prevButton.className = 'FC-nav-button prev';
-        prevButton.innerHTML = '‹';
+        prevButton.innerHTML = '<img class="icon icon-prev" src="https://www.e-bebek.com/assets/svg/prev.svg"></img>';
         mainContainer.appendChild(prevButton);
         
         const nextButton = document.createElement('button');
         nextButton.className = 'FC-nav-button next';
-        nextButton.innerHTML = '›';
+        nextButton.innerHTML = '<img class="icon icon-next" src="https://www.e-bebek.com/assets/svg/next.svg"></img>';
         mainContainer.appendChild(nextButton);
 
         products.forEach(product => {
@@ -482,26 +482,6 @@
             }
             
             
-            .icon {
-                display: inline-block;
-                font-style: normal;
-                font-variant: normal;
-                text-rendering: auto;
-                line-height: 1;
-            }
-            
-            .icon-prev::before {
-                content: "←";
-                font-size: 16px;
-                font-weight: bold;
-            }
-            
-            .icon-next::before {
-                content: "→";
-                font-size: 16px;
-                font-weight: bold;
-            }
-            
             .FC-products-wrapper {
                 position: relative;
                 width: 100%;
@@ -641,24 +621,6 @@
                 background: rgba(255, 107, 53, 0.1);
             }
             
-            .FC-media-icons {
-                position: absolute;
-                bottom: 8px;
-                left: 8px;
-                display: flex;
-                gap: 4px;
-            }
-            
-            .FC-video-icon,
-            .FC-ar-icon {
-                background: rgba(0, 0, 0, 0.7);
-                color: white;
-                padding: 4px 6px;
-                border-radius: 4px;
-                font-size: 10px;
-                font-weight: 500;
-            }
-            
             .FC-product-info {
                 padding: 16px;
                 display: flex;
@@ -787,7 +749,7 @@
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
-                background: rgba(255, 255, 255, 0.9);
+                background: #fef6eb;
                 border: none;
                 width: 50px;
                 height: 50px;
@@ -796,19 +758,15 @@
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                font-size: 20px;
-                font-weight: normal;
-                color: #333;
-                transition: all 0.3s ease;
                 z-index: 10;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-                font-family: Arial, sans-serif;
+                font-weight: normal;
+                font-family: Quicksand-Medium, sans-serif;
             }
             
             .FC-nav-button:hover {
-                background: #ffffff;
-                transform: translateY(-50%) scale(1.1);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                background: #ffffff;    
+                border: 1px solid;
+                border-color: #f39c12;
             }
             
             .FC-nav-button:active {
