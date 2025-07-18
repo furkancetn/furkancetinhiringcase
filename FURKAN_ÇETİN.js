@@ -86,6 +86,18 @@
         }
     }
 
+    function createCarousel(){
+
+        const test = document.createElement('div');
+        test.className = 'carousel';
+        test.style.display = 'flex';
+        test.style.overflowX = 'auto';
+        test.style.scrollSnapType = 'x mandatory';
+        test.innerHTML = `<h1>Beğenebileceğinizi düşündüklerimiz</h1>`;
+        return test;
+
+    }
+
     async function init() {
         // Modül Tasarım Planı:
         // İlk olarak modülün yapılandırmasını yapıyoruz.
@@ -125,12 +137,25 @@
             console.log("Favorites loaded from localStorage:", favorites);
         }
 
+        // Websitesindeki stories kısmının altına eklememiz gerektiği için ilk olarak bu kısmı buluyoruz.
+        const storiesSection = document.querySelector('.stories-section, .story-section, [class*="stories"], [class*="story"]'); // Websitesini incelediğimde bu kısımları buldum.
 
+        if (!storiesSection) {
+            console.error("Stories section not found on the page.");
+            return;
+        }
 
+        const carousel = createCarousel();
+        if (!carousel) {
+            console.error("Failed to create carousel.");
+            return;
+        }
 
+        if (!document.querySelector('.carousel')) {
+            storiesSection.insertAdjacentElement('afterend', carousel); // afterend ile stories bölümünün altına ekliyoruz.
+        }
 
-
-
+        console.log("Module initialized successfully. Products and favorites are ready to use.");
 
     }
 
