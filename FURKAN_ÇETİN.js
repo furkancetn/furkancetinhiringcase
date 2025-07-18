@@ -88,14 +88,83 @@
 
     function createCarousel(){
 
-        const test = document.createElement('div');
-        test.className = 'carousel';
-        test.style.display = 'flex';
-        test.style.overflowX = 'auto';
-        test.style.scrollSnapType = 'x mandatory';
-        test.innerHTML = `<h1>Beğenebileceğinizi düşündüklerimiz</h1>`;
-        return test;
+        const container = document.createElement('div');
+        container.className = 'carousel';
+        const title = document.createElement('h2');
+        title.textContent = 'Beğenebileceğinizi düşündüklerimiz';
+        container.appendChild(title);
+        const wrapper = document.createElement('div');
+        wrapper.className = 'carousel-wrapper';
+        container.appendChild(wrapper);
+        const track = document.createElement('div');
+        track.className = 'carousel-track';
+        wrapper.appendChild(track);
 
+        const prevButton = document.createElement('button');
+        prevButton.className = 'carousel-button prev';
+        prevButton.textContent = '‹';
+        prevButton.addEventListener('click', () => {
+            const cardWidth = 220; // 200px width + 20px gap
+            const currentScroll = wrapper.scrollLeft;
+            wrapper.scrollTo({ left: currentScroll - (cardWidth * 2), behavior: 'smooth' });
+        });
+        container.appendChild(prevButton);
+        const nextButton = document.createElement('button');
+        nextButton.className = 'carousel-button next';
+        nextButton.textContent = '›';
+        nextButton.addEventListener('click', () => {
+            const cardWidth = 220; // 200px width + 20px gap
+            const currentScroll = wrapper.scrollLeft;
+            wrapper.scrollTo({ left: currentScroll + (cardWidth * 2), behavior: 'smooth' });
+        });
+        container.appendChild(nextButton);
+
+        products.forEach(product => {
+            const productCard = createProductCard(product);
+            track.appendChild(productCard);
+        });
+
+
+
+        return container;
+    }
+
+    function createProductCard(product) {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <img src="${product.img}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.price} TL</p>
+            <button class="favorite-button" style="background-color: green;" data-id="${product.id}">'Add to Favorites'</button>
+        `;
+
+        const favoriteButton = card.querySelector('.favorite-button');
+        favoriteButton.addEventListener('click', () => {
+            const productId = parseInt(favoriteButton.getAttribute('data-id'), 10);
+            addProductToFavorites(productId);
+            favoriteButton.style.backgroundColor = favorites.some(fav => fav.id === productId) ? 'red' : 'green';
+        });
+
+        return card;
+    }
+
+    function createStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .carousel {
+                position: relative;
+                width: 100%;
+                overflow: hidden;
+            }
+            .carousel-wrapper { 
+                display: flex;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                gap: 20px; /* Gap between cards */
+            }
+        `;
+        document.head.appendChild(style);
     }
 
     async function init() {
@@ -146,6 +215,7 @@
         }
 
         const carousel = createCarousel();
+        createStyles();
         if (!carousel) {
             console.error("Failed to create carousel.");
             return;
