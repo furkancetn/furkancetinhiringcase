@@ -55,6 +55,37 @@
         }
     }
 
+    function saveFavoritesToStorage() {
+        localStorage.setItem(ModuleConfiguration.ModuleFavoriteStorageKey, JSON.stringify(favorites));
+    }
+
+    function addProductToFavorites(productId) {
+        const product = products.find(p => p.id === productId);
+        if (product && !favorites.some(fav => fav.id === productId)) {
+            favorites.push(product);
+            saveFavoritesToStorage();
+            console.log(`Product ${productId} added to favorites.`);
+        } else {
+            if (!product) {
+                console.warn(`Product with ID ${productId} does not exist in the product list.`);
+            } else {
+                console.warn(`Product ${productId} is removed from favorites.`);
+                removeProductFromFavorites(productId);
+            }
+        }
+    }
+
+    function removeProductFromFavorites(productId) {
+        const index = favorites.findIndex(fav => fav.id === productId);
+        if (index !== -1) {
+            favorites.splice(index, 1);
+            saveFavoritesToStorage();
+            console.log(`Product ${productId} removed from favorites.`);
+        } else {
+            console.warn(`Product ${productId} is not in favorites or does not exist.`);
+        }
+    }
+
     async function init() {
         // Modül Tasarım Planı:
         // İlk olarak modülün yapılandırmasını yapıyoruz.
@@ -94,7 +125,9 @@
             console.log("Favorites loaded from localStorage:", favorites);
         }
 
-        
+
+
+
 
 
 
