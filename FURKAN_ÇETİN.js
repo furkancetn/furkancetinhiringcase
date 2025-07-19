@@ -32,7 +32,7 @@
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            return data || data.products || []; // data may be an object with a products property or an array directly in github gist it is an array
+            return data || data.products || []; // data may be an object with a products property or an array directly (in github gist it is an array)
         } catch (error) {
             console.error("Error fetching products:", error);
             return [];
@@ -107,12 +107,6 @@
         
         const track = document.createElement('div');
         track.className = 'FC-products-track';
-        track.style.display = 'flex';
-        track.style.flexDirection = 'row';
-        track.style.padding = '10px 0 20px 0';
-        track.style.transition = 'transform 0.5s ease';
-        track.style.willChange = 'transform';
-        track.style.flexWrap = 'nowrap';
         wrapper.appendChild(track);
 
         mainContainer.appendChild(container);
@@ -164,13 +158,6 @@
             const translateX = -(currentIndex * (100 / itemsPerView));
             track.style.transform = `translateX(${translateX}%)`;
             
-            console.log('Slider Info:', {
-                itemsPerView,
-                currentIndex,
-                maxIndex,
-                totalProducts: products.length,
-                translateX: translateX + '%'
-            });
         };
 
         prevButton.addEventListener('click', () => {
@@ -357,10 +344,6 @@
         setCardSize();
         window.addEventListener('resize', setCardSize);
         
-        card.style.flexShrink = '0';
-        card.style.flexGrow = '0';
-        card.style.display = 'block';
-        
         const isFavorite = favorites.some(fav => fav.id === product.id);
         const hasDiscount = product.original_price && parseFloat(product.original_price) > parseFloat(product.price);
         const discountPercentage = hasDiscount
@@ -371,13 +354,14 @@
           <div class="FC-product-image-container">
             <img src="${product.img}" alt="${product.name}" class="FC-product-image">
             <button class="FC-favorite-btn ${isFavorite ? 'active' : ''}" data-id="${product.id}"> 
-              <img width="20" height="18" src="${isFavorite ? 'https://www.e-bebek.com/assets/svg/favorite.svg' : 'https://www.e-bebek.com/assets/svg/default-favorite.svg'}" alt="Favorite">
+              <img width="25" height="25" src="${isFavorite ? 'https://www.e-bebek.com/assets/svg/favorite.svg' : 'https://www.e-bebek.com/assets/svg/default-favorite.svg'}" alt="Favorite">
             </button>
           </div>
           <div class="FC-product-info">
             <div class="FC-product-content">
               <h3 class="FC-product-title">
-                <div class="FC-brand">${product.brand} - </div>${product.name}
+                <div class="FC-brand">${product.brand} - </div>
+                ${product.name}
               </h3>
               <div class="FC-rating">
                 ${'★'.repeat(4)}${'☆'.repeat(1)}
@@ -551,6 +535,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                gap: 20px;
             }
             
             .FC-product-badges {
@@ -604,14 +589,15 @@
                 background: rgba(255, 255, 255, 0.9);
                 border: none;
                 border-radius: 50%;
-                width: 36px;
-                height: 36px;
+                width: 50px;
+                height: 50px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
                 transition: all 0.2s ease;
                 z-index: 3;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
             
             .FC-favorite-btn:hover {
@@ -633,6 +619,8 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
+                space-between: 8px;
+                justify-content: space-between;
             }
             
             .FC-brand {
@@ -659,9 +647,10 @@
                 display: flex;
                 align-items: center;
                 gap: 20px;
-                margin-bottom: 8px;
+                margin-bottom: 5px;
                 font-size: 22px;
                 color: #fed100;
+                padding: 15px 0px 15px 0px; 
             }
             
             .FC-rating-count {
@@ -670,6 +659,7 @@
             }
             
             .FC-price-container {
+                padding-bottom: 15px;
                 margin-bottom: 8px;
                 min-height: 45px; 
             }
@@ -715,6 +705,7 @@
             
             .FC-cart-btn {
                 width: 100%;
+                height: 48px;
                 background: #fff7ec;
                 color: #f28e00;
                 border: none;
