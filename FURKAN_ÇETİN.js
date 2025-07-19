@@ -18,7 +18,7 @@
 
     function targetUrlCheck() {
         const currentUrl = window.location.href;
-        if (currentUrl !== ModuleConfiguration.ModuleTargetURL || currentUrl.indexOf(ModuleConfiguration.ModuleTargetURL) === -1) {
+        if (currentUrl !== ModuleConfiguration.ModuleTargetURL && currentUrl.indexOf(ModuleConfiguration.ModuleTargetURL) === -1) {
             console.error(`Current URL (${currentUrl}) does not match target URL (${ModuleConfiguration.ModuleTargetURL}). Module will not function properly.`);
             return false;
         }
