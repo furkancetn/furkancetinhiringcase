@@ -14,6 +14,8 @@ Furkan Çetin Hiring Case
 
 Herhangi bir sorun yaşarsanız sayfayı yenileyip tekrar deneyebilirsiniz.
 
+Not: API da mevcut olmayan rating, rating count vb. gibi değerler için math random aracılığı ile rastgele değerler ürettim.
+
 ## Kod Dokümantasyonu
 
 ### Ana Fonksiyonlar
