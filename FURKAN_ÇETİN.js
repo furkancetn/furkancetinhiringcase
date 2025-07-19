@@ -396,8 +396,7 @@
             if (e.target.closest('.FC-favorite-btn') || e.target.closest('.FC-cart-btn')) {
                 return;
             }
-
-            window.location.href = product.url || '';
+            window.open(product.url || '', '_blank');
 
         });
 
