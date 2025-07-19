@@ -14,7 +14,88 @@ Furkan Çetin Hiring Case
 
 Herhangi bir sorun yaşarsanız sayfayı yenileyip tekrar deneyebilirsiniz.
 
+## Kod Dokümantasyonu
+
+### Ana Fonksiyonlar
+
+#### `targetUrlCheck()`
+
+- **Amaç:** Mevcut URL'nin hedef URL (e-bebek.com) ile eşleşip eşleşmediğini kontrol eder
+- **Döndürür:** Boolean (true/false)
+- **Not:** Güvenlik için sadece belirli sitede çalışmasını sağlar
+
+#### `fetchProducts()`
+
+- **Amaç:** GitHub Gist API'sinden ürün verilerini çeker
+- **Döndürür:** Promise Array - Ürün listesi
+- **Hata Yönetimi:** Network hatalarını yakalar ve boş array döndürür
+
+#### `loadProductsFromStorage()`
+
+- **Amaç:** LocalStorage'dan önceden kaydedilmiş ürünleri yükler
+- **Döndürür:** Boolean - Başarılı yükleme durumu
+- **Avantaj:** Tekrar API çağrısı yapmayı önler
+
+#### `saveFavoritesToStorage()`
+
+- **Amaç:** Favori ürünleri LocalStorage'a kaydeder
+- **Kullanım:** Her favori ekleme/çıkarma işleminde otomatik çalışır
+
+#### `addProductToFavorites(productId)`
+
+- **Amaç:** Belirtilen ID'li ürünü favorilere ekler
+- **Parametre:** `productId` (Number) - Ürün ID'si
+- **Davranış:** Zaten favorilerde varsa çıkarır (toggle)
+
+#### `removeProductFromFavorites(productId)`
+
+- **Amaç:** Belirtilen ürünü favorilerden kaldırır
+- **Parametre:** `productId` (Number) - Ürün ID'si
+
+### UI Fonksiyonları
+
+#### `createCarousel()`
+
+- **Amaç:** Ana carousel container'ını ve tüm interaktif özelliklerini oluşturur
+- **Döndürür:** HTML Element (DOM node)
+
+#### `createProductCard(product)`
+
+- **Amaç:** Tek bir ürün kartı oluşturur
+- **Parametre:** `product` (Object) - Ürün bilgileri
+- **Döndürür:** HTML Element (DOM node)
+
+#### `createStyles()`
+
+- **Amaç:** Tüm CSS stillerini dinamik olarak sayfaya ekler
+
+### Yardımcı Fonksiyonlar
+
+#### `getItemsPerView()`
+
+- **Amaç:** Ekran boyutuna göre görünecek ürün sayısını belirler
+- **Breakpoint'ler:**
+  - ≥1480px: 5 ürün
+  - ≥1200px: 4 ürün
+  - ≥980px: 3 ürün
+  - <980px: 2 ürün
+
+#### `updateSlider()`
+
+- **Amaç:** Slider pozisyonunu günceller ve buton durumlarını ayarlar
+
+#### `init()`
+
+- **Amaç:** Modülü başlatır ve tüm kontrolleri yapar
+- **Akış:**
+  1. URL kontrolü
+  2. Ürün yükleme (LocalStorage → API)
+  3. Favori yükleme
+  4. Stories bölümü bulma
+  5. Carousel enjekte etme
+
+
 ## İletişim
-@furkancetn
--
-furkncetn@outlook.com
+
+**GitHub:** @furkancetn  
+**Email:** <furkncetn@outlook.com>
